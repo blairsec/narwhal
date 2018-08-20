@@ -35,6 +35,6 @@ registry:
 On the server where narwhal is running, authenticate the Docker client with the registry.
 
 ## Images
-Since narwhal automates container creation, runtime flags must be provided in an image's label named `options`. They should be formatted as a JSON-encoded kwargs dictionary from the Docker Python SDK's [method](https://docker-py.readthedocs.io/en/stable/containers.html#docker.models.containers.ContainerCollection.run). The `detached` flag does not have to be provided.
+Since narwhal automates container creation, runtime flags must be provided in an image's label named `options`. They should be formatted as a JSON-encoded kwargs dictionary for the Docker Python SDK's [run method](https://docker-py.readthedocs.io/en/stable/containers.html#docker.models.containers.ContainerCollection.run). The `detached` flag does not have to be provided.
 
 An image will correspond to exactly one  container. If more are necessary, consider using multiple tags that point to the same image.
