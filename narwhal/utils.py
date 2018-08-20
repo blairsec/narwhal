@@ -4,13 +4,10 @@ import docker
 client = docker.from_env()
 
 def get_container(name):
-	try:
-		container = client.containers.get(name)
-		assert container.name == name
-		assert container.labels.get('service') == 'narwhal'
-		return container
-	except:
-		pass
+	container = client.containers.get(name)
+	assert container.name == name
+	assert container.labels.get('service') == 'narwhal'
+	return container
 
 def get_containers():
 	return client.containers.list(all=True, filters={
