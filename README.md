@@ -5,7 +5,34 @@ narwhal provides a web interface for managing Docker instances. Specifically, it
 API documentation is available at https://blairsec.github.io/narwhal/.
 
 ## Registry
-narwhal obtains images by pulling from registries. The server should be pre-authenticated with the registry it is using.
+Creating a registry for narwhal follows the standard procedure. First, pull the `registry:2` image from Docker Hub.
+
+Within the project directory, run:
+```
+λ touch docker-compose.yml
+λ mkdir registry
+λ mkdir auth
+λ docker run --entrypoint htpasswd registry:2 -Bbn <user> <pass> > auth/htpasswd
+```
+
+Write to `docker-compose.yml`:
+```yml
+registry:
+  restart: always
+  image: registry:2
+  ports:
+    - 5000:5000
+  environment:
+    REGISTRY_AUTH: htpasswd
+    REGISTRY_AUTH_HTPASSWD_PATH: /auth/htpasswd
+    REGISTRY_AUTH_HTPASSWD_REALM: registry
+    REGISTRY_STORAGE_DELETE_ENABLED: "true"
+  volumes:
+    - ./registry:/var/lib/registry
+    - ./auth:/auth
+```
+
+On the server where narwhal is running, authenticate the Docker client with the registry.
 
 ## Images
 Since narwhal automates container creation, runtime flags must be provided in an image's label named `options`. They should be formatted as a JSON-encoded kwargs dictionary from the Docker Python SDK's [method](https://docker-py.readthedocs.io/en/stable/containers.html#docker.models.containers.ContainerCollection.run). The `detached` flag does not have to be provided.
