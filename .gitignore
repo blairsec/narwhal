@@ -1,0 +1,5 @@
+auth
+registry
+.env
+docker-compose.yml
+__pycache__

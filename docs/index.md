@@ -50,7 +50,7 @@ Note: The response contains a field for each instance.
 |name|type|required|requirements|
 |----|----|--------|------------|
 |repo|string|yes|repo must exist|
-|tag|string|no|repo must have tag|
+|tag|string|yes|repo must have tag|
 
 #### Responses
 

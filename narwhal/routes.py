@@ -37,7 +37,7 @@ class Instances(object):
 
 class Instance(object):
 
-	def get_container(name):
+	def get_container(self, name):
 		try:
 			return utils.get_container(name)
 		except:
