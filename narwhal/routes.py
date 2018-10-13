@@ -30,8 +30,9 @@ class Instances(object):
 		data = load_stream(req)
 		repo = data.get('repo')
 		tag = data.get('tag')
+		environment = data.get('environment', {})
 		try:
-			utils.create_instance(repo, tag)
+			utils.create_instance(repo, tag, environment)
 		except:
 			raise falcon.HTTPInternalServerError('Internal server error', 'Unable to create instance.')
 
