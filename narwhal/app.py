@@ -21,6 +21,5 @@ class AuthMiddleware(object):
 		self.secret = secret
 
 	def process_resource(self, req, resp, resource, params):
-		print(req.get_header('Authorization'), self.secret)
 		if not req.get_header('Authorization') == self.secret:
 			raise falcon.HTTPUnauthorized()
