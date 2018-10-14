@@ -30,10 +30,11 @@ class Instances(object):
 		data = load_stream(req)
 		repo = data.get('repo')
 		tag = data.get('tag')
+		environment = data.get('environment', {})
 		try:
-			utils.create_instance(repo, tag)
-		except:
-			raise falcon.HTTPInternalServerError('Internal server error', 'Unable to create instance.')
+			utils.create_instance(repo, tag, environment)
+		except Exception as e:
+			raise falcon.HTTPInternalServerError('Internal server error', str(e))
 
 class Instance(object):
 
