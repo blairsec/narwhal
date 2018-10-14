@@ -28,13 +28,13 @@ def create_instance(repo, tag):
 
 def remove_instance(container):
 	image = container.image
-	containers = client.containers.list(filters={
+	containers = client.containers.list(all=True, filters={
 		'ancestor': image.id
 	})
 	for container in containers:
 		container.remove(force=True)
 	prune_networks()
-	client.images.remove(image.id, force=True)
+	client.images.remove(image.id)
 
 def init_network(name):
 	try:
