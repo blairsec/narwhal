@@ -32,7 +32,7 @@ class Instances(object):
 		tag = data.get('tag')
 		environment = data.get('environment', {})
 		try:
-			utils.create_instance(repo, tag, environment)
+			resp.body = utils.create_instance(repo, tag, environment).name
 		except Exception as e:
 			raise falcon.HTTPInternalServerError('Internal server error', str(e))
 
