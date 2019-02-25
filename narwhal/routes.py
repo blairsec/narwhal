@@ -6,7 +6,7 @@ from . import utils
 
 def load_stream(req):
 	try:
-		return json.load(req.stream)
+		return json.loads(str(req.stream.read().decode("utf-8")))
 	except:
 		raise falcon.HTTPBadRequest('Bad request', 'Invalid JSON data.')
 
