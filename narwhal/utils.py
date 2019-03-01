@@ -11,6 +11,12 @@ def add_proxy_network(name):
 	for container in containers:
 		if container not in network.containers: network.connect(container)
 
+def update_proxy_networks(container):
+	image = container.image
+	options = json.loads(image.labels.get('options', '{}'))
+	if 'network' in options:
+		add_proxy_network(options.get('network'))
+
 def get_container(name):
 	container = client.containers.get(name)
 	assert container.name == name

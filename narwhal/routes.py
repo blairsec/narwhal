@@ -59,6 +59,7 @@ class Instance(object):
 		utils.remove_instance(container)
 
 	def handle_action(self, container, action):
+		utils.update_proxy_networks(container)
 		if action == 'start':
 			container.start()
 		elif action == 'stop':
