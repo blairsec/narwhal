@@ -46,13 +46,13 @@ def remove_instance(container):
 	client.images.remove(image.id)
 
 def init_network(name):
-	add_proxy_network(name)
 	try:
 		client.networks.get(name)
 	except:
 		client.networks.create(name, labels={
 			'service': 'narwhal'
 		})
+	add_proxy_network(name)
 
 def prune_networks():
 	client.networks.prune(filters={
