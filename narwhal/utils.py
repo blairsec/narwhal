@@ -14,14 +14,12 @@ def get_containers():
 		'label': 'service=narwhal'
 	})
 
-def create_instance(repo, tag, environment={}):
+def create_instance(repo, tag, options):
 	image = client.images.pull(repo, tag=tag)
-	options = json.loads(image.labels.get('options', '{}'))
 	options['detach'] = True
 	options['labels'] = {
 		'service': 'narwhal'
 	}
-	options['environment'] = dict(options.get('environment', {}), **environment)
 	network = options.get('network')
 	if network:
 		init_network(network)

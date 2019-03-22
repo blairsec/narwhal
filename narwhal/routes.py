@@ -29,10 +29,10 @@ class Instances(object):
 	def on_post(self, req, resp):
 		data = load_stream(req)
 		repo = data.get('repo')
-		tag = data.get('tag')
-		environment = data.get('environment', {})
+		tag = data.get('tag', 'latest')
+		options = data.get('options', {})
 		try:
-			utils.create_instance(repo, tag, environment)
+			utils.create_instance(repo, tag, options)
 		except Exception as e:
 			raise falcon.HTTPInternalServerError('Internal server error', str(e))
 
