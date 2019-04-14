@@ -3,6 +3,20 @@ import json
 import docker
 client = docker.from_env()
 
+def add_proxy_network(name):
+	containers = client.containers.list(filters={
+		'label': 'service=narwhal-proxy'
+	})
+	network = client.networks.get(name)
+	for container in containers:
+		if container not in network.containers: network.connect(container)
+
+def update_proxy_networks(container):
+	image = container.image
+	options = json.loads(image.labels.get('options', '{}'))
+	if 'network' in options:
+		add_proxy_network(options.get('network'))
+
 def get_container(name):
 	container = client.containers.get(name)
 	assert container.name == name
@@ -42,6 +56,7 @@ def init_network(name):
 		client.networks.create(name, labels={
 			'service': 'narwhal'
 		})
+	add_proxy_network(name)
 
 def prune_networks():
 	client.networks.prune(filters={
