@@ -6,7 +6,7 @@ from . import utils
 
 def load_stream(req):
 	try:
-		return json.loads(str(req.stream.read().decode("utf-8")))
+		return json.load(req.stream)
 	except:
 		raise falcon.HTTPBadRequest('Bad request', 'Invalid JSON data.')
 
@@ -32,7 +32,7 @@ class Instances(object):
 		tag = data.get('tag', 'latest')
 		options = data.get('options', {})
 		try:
-			resp.body = utils.create_instance(repo, tag, options).name
+			utils.create_instance(repo, tag, options)
 		except Exception as e:
 			raise falcon.HTTPInternalServerError('Internal server error', str(e))
 
@@ -59,7 +59,6 @@ class Instance(object):
 		utils.remove_instance(container)
 
 	def handle_action(self, container, action):
-		utils.update_proxy_networks(container)
 		if action == 'start':
 			container.start()
 		elif action == 'stop':
