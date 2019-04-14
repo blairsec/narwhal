@@ -29,8 +29,8 @@ class Instances(object):
 	def on_post(self, req, resp):
 		data = load_stream(req)
 		repo = data.get('repo')
-		tag = data.get('tag', 'latest')
-		options = data.get('options', {})
+		tag = data.get('tag')
+		environment = data.get('environment', {})
 		try:
 			resp.body = utils.create_instance(repo, tag, options).name
 		except Exception as e:
